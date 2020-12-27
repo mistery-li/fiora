@@ -1,57 +1,62 @@
 /* eslint-disable camelcase */
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime';
 
-import React from 'react';
-import ReactDom from 'react-dom';
-import { Provider } from 'react-redux';
+// import React from 'react';
+// import ReactDom from 'react-dom';
+// import { Provider } from 'react-redux';
 
-import App from './App';
-import store from './state/store';
-import getData from './localStorage';
-import setCssVariable from '../utils/setCssVariable';
-import config from '../config/client';
+// import App from './App';
+// import store from './state/store';
+// import getData from './localStorage';
+// import setCssVariable from '../utils/setCssVariable';
+// import config from '../config/client';
 
-// 注册 Service Worker
-if (window.location.protocol === 'https:' && 'serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register(`/service-worker.js`);
-    });
-}
+// // 注册 Service Worker
+// if (window.location.protocol === 'https:' && 'serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker.register(`/service-worker.js`);
+//     });
+// }
 
-// 如果配置了前端监控, 动态加载并启动监控
-if (config.frontendMonitorAppId) {
-    // @ts-ignore
-    import(/* webpackChunkName: "frontend-monitor" */ 'wpk-reporter').then((module) => {
-        const WpkReporter = module.default;
+// // 如果配置了前端监控, 动态加载并启动监控
+// if (config.frontendMonitorAppId) {
+//     // @ts-ignore
+//     import(/* webpackChunkName: "frontend-monitor" */ 'wpk-reporter').then((module) => {
+//         const WpkReporter = module.default;
 
-        const __wpk = new WpkReporter({
-            bid: config.frontendMonitorAppId,
-            spa: true,
-            rel: config.frontendMonitorAppId,
-            uid: () => localStorage.getItem('username') || '',
-            plugins: [],
-        });
+//         const __wpk = new WpkReporter({
+//             bid: config.frontendMonitorAppId,
+//             spa: true,
+//             rel: config.frontendMonitorAppId,
+//             uid: () => localStorage.getItem('username') || '',
+//             plugins: [],
+//         });
 
-        __wpk.installAll();
-    });
-}
+//         __wpk.installAll();
+//     });
+// }
 
-// 更新 css variable
-const { primaryColor, primaryTextColor } = getData();
-setCssVariable(primaryColor, primaryTextColor);
+// // 更新 css variable
+// const { primaryColor, primaryTextColor } = getData();
+// setCssVariable(primaryColor, primaryTextColor);
 
-// 请求 Notification 授权
-if (
-    window.Notification &&
-    (window.Notification.permission === 'default' || window.Notification.permission === 'denied')
-) {
-    window.Notification.requestPermission();
-}
+// // 请求 Notification 授权
+// if (
+//     window.Notification &&
+//     (window.Notification.permission === 'default' || window.Notification.permission === 'denied')
+// ) {
+//     window.Notification.requestPermission();
+// }
 
-ReactDom.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('app'),
-);
+// ReactDom.render(
+//     <Provider store={store}>
+//         <App />
+//     </Provider>,
+//     document.getElementById('app'),
+// );
+
+import { createApp } from 'vue';
+import App from './App.vue';
+
+createApp(App).mount('#app');

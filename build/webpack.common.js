@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LessPluginAutoPrefix = require('less-plugin-autoprefix');
 const Dotenv = require('dotenv-webpack');
+const { VueLoaderPlugin } = require('vue-loader');
 
 const clientConfigKeys = [
     'NODE_ENV',
@@ -23,7 +24,7 @@ module.exports = {
         app: path.resolve(__dirname, '../client/main.tsx'),
     },
     output: {
-        filename: '[name].[chunkhash:8].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, '../dist/fiora'),
     },
     resolve: {
@@ -59,6 +60,7 @@ module.exports = {
                         loader: 'ts-loader',
                         options: {
                             transpileOnly: true,
+                            appendTsSuffixTo: [/\.vue$/],
                         },
                     },
                 ],
@@ -123,6 +125,10 @@ module.exports = {
                     name: '[name].[hash:8].[ext]',
                 },
             },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+            },
         ],
     },
     plugins: [
@@ -144,5 +150,6 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new Dotenv(),
+        new VueLoaderPlugin(),
     ],
 };
